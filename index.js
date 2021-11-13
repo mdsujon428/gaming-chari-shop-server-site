@@ -22,7 +22,8 @@ async function run() {
     const database = client.db('Gaming-Chair-Shop');
     const productsCollection = database.collection('products');
     const users = database.collection('users');
-    const myOrdersCollection = database.collection('myOrders')
+    const myOrdersCollection = database.collection('myOrders');
+    const usersReviewCollection = database.collection('reviews')
 
     // Get product by id
     app.get('/product/:id', async (req, res) => {
@@ -75,6 +76,12 @@ async function run() {
       const id = req.params.id;
       const query = { _id: ObjectId(id) }
       const result = await myOrdersCollection.deleteOne(query)
+      res.json(result)
+    })
+    //API to post user review to usersReviewCollection
+    app.post('/review',async(req,res)=>{
+      const userReview = req.body;
+      const result = await usersReviewCollection.insertOne(userReview)
       res.json(result)
     })
   }
