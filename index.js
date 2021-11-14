@@ -78,7 +78,7 @@ async function run() {
       if(result?.role === 'admin'){
         isAdmin= true;
       }
-      res.json({admin:isAdmin})
+      res.json({admin:isAdmin})   
     })
     //API to post order data to myOrdersCollection
     app.post('/myOrders',async(req,res)=>{
