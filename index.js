@@ -48,7 +48,12 @@ async function run() {
       }
       res.json(result)
     })
-
+    //API to post new product to productsCollection
+    app.post('/products',async(req,res)=>{
+      const newProduct = req.body;
+      const result = await productsCollection.insertOne(newProduct)
+      res.json(result)
+    })
     //API to post data to user collection.
     app.post('/users', async (req, res) => {
       const newUser = req.body;
@@ -56,6 +61,17 @@ async function run() {
       res.json(result)
     });
     
+    //API to get admin 
+    app.get('/users/:email',async(req,res)=>{
+      const email = req.params?.email;
+      const query = {email:email};
+      const result = await users.findOne(query)
+      let isAdmin = false;
+      if(result?.role === 'admin'){
+        isAdmin= true;
+      }
+      res.json({admin:isAdmin})
+    })
     //API to post order data to myOrdersCollection
     app.post('/myOrders',async(req,res)=>{
       const myOrder = req.body;
@@ -82,6 +98,12 @@ async function run() {
     app.post('/review',async(req,res)=>{
       const userReview = req.body;
       const result = await usersReviewCollection.insertOne(userReview)
+      res.json(result)
+    })
+    //API to get data from usersReviewCollection
+    app.get('/review',async(req,res)=>{
+      const cursor = usersReviewCollection.find({})
+      const result = await cursor.toArray()
       res.json(result)
     })
   }
