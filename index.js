@@ -54,6 +54,14 @@ async function run() {
       const result = await productsCollection.insertOne(newProduct)
       res.json(result)
     })
+    //API to delete data from productsCollection
+    app.delete('/products/:id',async(req,res)=>{
+      const id = req.params.id;
+      console.log(id)
+      const query = { _id: ObjectId(id) }
+      const result = await productsCollection.deleteOne(query)
+      res.json(result)
+    })
     //API to post data to user collection.
     app.post('/users', async (req, res) => {
       const newUser = req.body;
